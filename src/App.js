@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import Header from './components/header'
 import Tasks from './components/tasks'
+import AddTask from './components/addTask'
+
 
 function App() {
 const [tasks,setTasks] = useState([
@@ -15,13 +17,28 @@ const [tasks,setTasks] = useState([
     text : 'Relaxing',
     reminder : true,
     day:'monday'
-  }
+  },
+  { id:3, 
+    text:'Playing', 
+    reminder : false,
+    day:'tuesday'}
 ])
+
+
+const ToggleReminder = (id) =>{
+  setTasks(tasks.map((task)=> task.id === id ? {...task,reminder : !task.reminder}:task))
+}
+
+const DeleteTask = (id)=>{
+    setTasks(tasks.filter((task)=> task.id!==id))
+}
+
 
   return (
     <div className="App">
     <Header />
-    <Tasks tasks = { tasks }/>
+    <AddTask />
+    <Tasks tasks = { tasks } onDelete = { DeleteTask } onToggle = {ToggleReminder	}/>
     </div>
   );
 }
